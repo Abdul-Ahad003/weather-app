@@ -8,7 +8,6 @@ function App() {
   const [searchvalue, setsearchvalue] = useState("")
 
   const [time, setTime] = useState(new Date());
-  // console.log(time.toString().split(' ').splice(1,3));
 
   const [weather, setweather] = useState([])
 

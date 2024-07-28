@@ -2,10 +2,10 @@ import React from 'react'
 
 
 const Forecast = ({ arr }) => {
-    console.log(arr.lenght);
-    const weather_img = ['./sunny.svg', './cloudy.svg', './showers.svg', './thunderstorms.svg', './partly_cloudy.svg']
-    return (
 
+    const weather_img = ['./sunny.svg', './cloudy.svg', './showers.svg', './thunderstorms.svg', './partly_cloudy.svg']
+
+    return (
         <section className=' px-6 py-6 '>
             <div className='bg-[#131313] rounded-2xl w-full'>
                 <div className=' md:px-7 px-3 py-5 font-bold text-[18px]'><span>10-Day Weather Forecast</span></div>
