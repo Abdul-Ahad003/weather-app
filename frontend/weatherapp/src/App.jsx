@@ -11,6 +11,28 @@ function App() {
 
   const [weather, setweather] = useState([])
 
+  const calculateFeelsLike = (temperature, humidity) => {
+    if (temperature < 27 || humidity < 40) {
+        return temperature; 
+    }
+
+    const tempF = temperature * 9 / 5 + 32;
+
+    const feelsLikeF = -42.379 +
+        2.04901523 * tempF +
+        10.14333127 * humidity -
+        0.22475541 * tempF * humidity -
+        0.00683783 * tempF * tempF -
+        0.05481717 * humidity * humidity +
+        0.00122874 * tempF * tempF * humidity +
+        0.00085282 * tempF * humidity * humidity -
+        0.00000199 * tempF * tempF * humidity * humidity;
+
+    const feelsLikeC = (feelsLikeF - 32) * 5 / 9;
+
+    return feelsLikeC;
+}
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setTime(new Date());
@@ -41,10 +63,10 @@ function App() {
             <div className=' flex justify-between items-center gap-5'><span className=' text-[40px]'>{weather.length !== 0 && weather.current_observation.condition.temperature}&deg;C</span>  <span><img className=' w-[120px] h-[120px]' src='./sunny.svg' /></span> </div>
             <div><span className=' text-[24px]'>{weather.length !== 0 && weather.current_observation.condition.text}</span></div>
             <div className=' w-full h-[1px] bg-[#747373] my-2'></div>
-            <div className=' flex gap-3 my-3.5'> <img className=' w-[24px] h-[24px]' src='./calender.svg' /> <span>{time.toString().split(' ').splice(1, 3).join(" ")}</span> </div>
-            <div className=' flex gap-3 my-3.5'> <img className=' w-[24px] h-[24px]' src='./time.svg' /> <span>{time.toString().split(' ')[4]}</span> </div>
+            <div className=' flex gap-3 my-3.5'> <img className=' w-[24px] h-[24px] font-semibold' src='./calender.svg' /> <span className='font-bold'>{time.toString().split(' ').splice(1, 3).join(" ")}</span> </div>
+            <div className=' flex gap-3 my-3.5'> <img className=' w-[24px] h-[24px] ' src='./time.svg' /> <span className=' font-bold'>{time.toString().split(' ')[4]}</span> </div>
             <div className=' '>
-              <button className=' bg-green-500 rounded-full md:py-2 py-2  px-6  font-semibold md:mt-3 mt-2'>10-Day Forecast</button>
+              <button className=' bg-green-600 rounded-full md:py-2 py-2  px-6  font-semibold md:mt-3 mt-2'>10-Day Forecast</button>
             </div>
           </div>
           <div className='px-5 py-6 w-full bg-[#131313] rounded-2xl'>
@@ -68,7 +90,7 @@ function App() {
               </div>
               <div className=' md:w-1/2 w-full'>
                 <div className='innercard md:px-6 px-[13px] py-2.5 rounded-xl shadow-2xl bg-[#0e0d0d]'>
-                  <span>Wind</span>
+                  <span>Sunrise and Sunset</span>
                   <div className=' flex justify-between py-6'>
                     <div className=' flex gap-1 items-center'> <img className=' md:w-[84px] md:h-[84px] w-[54px] h-[54px]' src='./sunny.svg' alt='wind' />
                       <div className=' flex flex-col '>
@@ -122,7 +144,7 @@ function App() {
                   <span>Feels Like</span>
                   <div className=' flex justify-between items-center gap-3 py-4'>
                     <img className=' w-[70px] h-[70px]' src='./temprature.svg' alt='wind' />
-                    <span className=' text-[2.5vw]'>5&deg;C</span>
+                    <span className=' text-[2.5vw]'>{weather.length !== 0 && calculateFeelsLike(weather.current_observation.condition.temperature,weather.current_observation.atmosphere.humidity).toFixed(2)}&deg;C</span>
                   </div>
                 </div>
               </div>
@@ -166,7 +188,7 @@ function App() {
                   <span>Feels Like</span>
                   <div className=' flex justify-between items-center gap-3 py-4'>
                     <img className=' md:w-[70px] md:h-[70px] w-[45px] h-[45px]' src='./temprature.svg' alt='wind' />
-                    <span className=' text-[19px]'>5&deg;C</span>
+                    <span className=' text-[19px]'>{weather.length !== 0 && calculateFeelsLike(weather.current_observation.condition.temperature,weather.current_observation.atmosphere.humidity).toFixed(2)}&deg;C</span>
                   </div>
                 </div>
               </div>

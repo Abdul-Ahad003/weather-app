@@ -3,12 +3,12 @@ import React from 'react'
 
 const Forecast = ({ arr }) => {
 
-    const weather_img = ['./sunny.svg', './cloudy.svg', './showers.svg', './thunderstorms.svg', './partly_cloudy.svg']
+    const weather_img = ['./sunny.svg', './cloudy.svg', './showers.svg', './thunderstorms.svg', './partly_cloudy.svg','./rain.svg']
 
     return (
         <section className=' px-6 py-6 '>
             <div className='bg-[#131313] rounded-2xl w-full'>
-                <div className=' md:px-7 px-3 py-5 font-bold text-[18px]'><span>10-Day Weather Forecast</span></div>
+                <div className=' md:px-7 px-3 py-5 font-bold text-[18px]'><span className=''>10-Day Weather Forecast</span></div>
 
                 {arr.length !== 0 && arr.forecasts.map((item, key) => {
                     return (
@@ -22,12 +22,14 @@ const Forecast = ({ arr }) => {
                                         {item.text == "Cloudy" && <img src={weather_img[1]} alt='cloudy' />}
                                         {item.text == "Mostly Cloudy" && <img src={weather_img[1]} alt='mostly cloudy' />}
                                         {item.text == "Showers" && <img src={weather_img[2]} alt='showers' />}
+                                        {item.text == "Scattered Showers" && <img src={weather_img[2]} alt='scattered showers' />}
                                         {item.text == "Thunderstorms" && <img src={weather_img[3]} alt='thunderstorms' />}
                                         {item.text == "Partly Cloudy" && <img src={weather_img[4]} alt='partly cloudy' />}
+                                        {item.text == "Rain" && <img src={weather_img[5]} alt='rain' />}
                                     </div>
                                     <span className=' md:text-[16px] text-[15px]'>{item.text}</span>
                                 </div>
-                                <div>{item.high}&deg;C / {item.low}&deg;C</div>
+                                <div className=' font-Concer' >{item.high}&deg;C / {item.low}&deg;C</div>
                             </div>
                         </>
                     )
