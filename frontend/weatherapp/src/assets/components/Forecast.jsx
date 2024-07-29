@@ -1,12 +1,21 @@
 import React from 'react'
+import { Link } from 'react-scroll'
+import BeatLoader from "react-spinners/ClipLoader";
 
 
-const Forecast = ({ arr }) => {
+const Forecast = ({ arr,load }) => {
 
     const weather_img = ['./sunny.svg', './cloudy.svg', './showers.svg', './thunderstorms.svg', './partly_cloudy.svg','./rain.svg']
 
     return (
-        <section className=' px-6 py-6 '>
+        <section name="forecast" className=' px-6 py-6  relative'>
+            <div className='absolute md:top-1/2 md:left-1/2 top-[51vh] left-[45vw]'>
+          <BeatLoader
+            color="#42d7f5"
+            loading={load}
+            size={60}
+          />
+        </div>
             <div className='bg-[#131313] rounded-2xl w-full'>
                 <div className=' md:px-7 px-3 py-5 font-bold text-[18px]'><span className=''>10-Day Weather Forecast</span></div>
 

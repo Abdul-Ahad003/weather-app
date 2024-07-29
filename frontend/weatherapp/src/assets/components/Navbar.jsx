@@ -1,19 +1,22 @@
 import React from 'react'
 
-const Navbar = ({search_val,search_fn,weather_fn}) => {
+const Navbar = ({search_val,search_fn,weather_fn,loading_fn}) => {
   const handleSearch = async (e) => { 
+      loading_fn(true)
       const a = await fetch("http://localhost:3000/api", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ searchvalue:search_val }) })
       const b = await a.json()
+      if (b){
+        loading_fn(false)
+      }
       weather_fn(b)
-      console.log(b)
-      console.log(search_val)
    }
 
    const handleSet = (e) => { 
     search_fn(e.target.value)
     }
+
   return (
-    <header className='sticky top-0 '>
+    <header className='sticky top-0  z-20'>
       <nav className=' flex bg-black justify-between items-center py-5 md:px-8 pl-5 pr-1'>
         <div className='logo font-bold md:text-[20px] text-[18px] flex items-center gap-1 '> <span><img className=' md:w-10 md:h-10 w-8 h-8' src='./images/weather_icon.png' alt='icon'/></span>  <span>WeatherX</span> </div>
         <div className=' relative'>

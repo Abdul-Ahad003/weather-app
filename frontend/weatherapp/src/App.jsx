@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import Navbar from './assets/components/Navbar'
 import Forecast from './assets/components/Forecast'
+import { Link } from 'react-scroll'
+import BeatLoader from "react-spinners/ClipLoader";
 
 function App() {
 
@@ -11,27 +13,29 @@ function App() {
 
   const [weather, setweather] = useState([])
 
+  const [loading, setloading] = useState(false)
+
   const calculateFeelsLike = (temperature, humidity) => {
     if (temperature < 27 || humidity < 40) {
-        return temperature; 
+      return temperature;
     }
 
     const tempF = temperature * 9 / 5 + 32;
 
     const feelsLikeF = -42.379 +
-        2.04901523 * tempF +
-        10.14333127 * humidity -
-        0.22475541 * tempF * humidity -
-        0.00683783 * tempF * tempF -
-        0.05481717 * humidity * humidity +
-        0.00122874 * tempF * tempF * humidity +
-        0.00085282 * tempF * humidity * humidity -
-        0.00000199 * tempF * tempF * humidity * humidity;
+      2.04901523 * tempF +
+      10.14333127 * humidity -
+      0.22475541 * tempF * humidity -
+      0.00683783 * tempF * tempF -
+      0.05481717 * humidity * humidity +
+      0.00122874 * tempF * tempF * humidity +
+      0.00085282 * tempF * humidity * humidity -
+      0.00000199 * tempF * tempF * humidity * humidity;
 
     const feelsLikeC = (feelsLikeF - 32) * 5 / 9;
 
     return feelsLikeC;
-}
+  }
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -40,22 +44,37 @@ function App() {
     return () => clearInterval(intervalId);
   }, []);
 
-  const getdata = async () => { 
-    const a = await fetch("http://localhost:3000/api", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ searchvalue:"kanpur" }) })
+  const getdata = async () => {
+    setloading(true)
+    const a = await fetch("http://localhost:3000/api", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ searchvalue: "kanpur" }) })
     const b = await a.json()
-    console.log(b);
+    if (b) {
+      setloading(false)
+    }
     setweather(b)
-   }
+  }
 
-   useEffect(() => {
+  useEffect(() => {
     getdata()
-   }, [])
+  }, [])
+
+
 
 
   return (
     <>
-      <Navbar search_val={searchvalue} search_fn={setsearchvalue} weather_fn={setweather} />
-      <section className=' py-6 px-6'>
+      <Navbar search_val={searchvalue} search_fn={setsearchvalue} weather_fn={setweather} loading_fn={setloading} />
+
+
+      <section className=' relative py-6 px-6'>
+        <div className='absolute md:top-1/2 md:left-1/2 top-[51vh] left-[45vw]'>
+          <BeatLoader
+            color="#42d7f5"
+            loading={loading}
+            size={60}
+          />
+        </div>
+
         <div className=' flex md:flex-row flex-col gap-6 '>
           <div className=' card bg-[#131313] py-6 px-8 rounded-2xl'>
             <div className=' text-[20px]'><span>{weather.length !== 0 && weather.location.city}</span></div>
@@ -66,7 +85,7 @@ function App() {
             <div className=' flex gap-3 my-3.5'> <img className=' w-[24px] h-[24px] font-semibold' src='./calender.svg' /> <span className='font-bold'>{time.toString().split(' ').splice(1, 3).join(" ")}</span> </div>
             <div className=' flex gap-3 my-3.5'> <img className=' w-[24px] h-[24px] ' src='./time.svg' /> <span className=' font-bold'>{time.toString().split(' ')[4]}</span> </div>
             <div className=' '>
-              <button className=' bg-green-600 rounded-full md:py-2 py-2  px-6  font-semibold md:mt-3 mt-2'>10-Day Forecast</button>
+              <Link to='forecast' activeClass="active" offset={-70} smooth={true} duration={500}><button className=' bg-green-600 rounded-full md:py-2 py-2  px-6  font-semibold md:mt-3 mt-2'>10-Day Forecast</button></Link>
             </div>
           </div>
           <div className='px-5 py-6 w-full bg-[#131313] rounded-2xl'>
@@ -144,7 +163,7 @@ function App() {
                   <span>Feels Like</span>
                   <div className=' flex justify-between items-center gap-3 py-4'>
                     <img className=' w-[70px] h-[70px]' src='./temprature.svg' alt='wind' />
-                    <span className=' text-[2.5vw]'>{weather.length !== 0 && calculateFeelsLike(weather.current_observation.condition.temperature,weather.current_observation.atmosphere.humidity).toFixed(2)}&deg;C</span>
+                    <span className=' text-[2.5vw]'>{weather.length !== 0 && calculateFeelsLike(weather.current_observation.condition.temperature, weather.current_observation.atmosphere.humidity).toFixed(0)}&deg;C</span>
                   </div>
                 </div>
               </div>
@@ -173,7 +192,7 @@ function App() {
             </div>
 
             <div className=' md:hidden flex gap-6 my-6'>
-            <div className=' w-1/2'>
+              <div className=' w-1/2'>
                 <div className='innercard px-6 py-2.5 rounded-xl shadow-2xl bg-[#0e0d0d]'>
                   <span>Visiblity</span>
                   <div className=' flex justify-between items-center gap-3 py-4'>
@@ -188,7 +207,7 @@ function App() {
                   <span>Feels Like</span>
                   <div className=' flex justify-between items-center gap-3 py-4'>
                     <img className=' md:w-[70px] md:h-[70px] w-[45px] h-[45px]' src='./temprature.svg' alt='wind' />
-                    <span className=' text-[19px]'>{weather.length !== 0 && calculateFeelsLike(weather.current_observation.condition.temperature,weather.current_observation.atmosphere.humidity).toFixed(2)}&deg;C</span>
+                    <span className=' text-[19px]'>{weather.length !== 0 && calculateFeelsLike(weather.current_observation.condition.temperature, weather.current_observation.atmosphere.humidity).toFixed(2)}&deg;C</span>
                   </div>
                 </div>
               </div>
@@ -196,7 +215,7 @@ function App() {
           </div>
         </div>
       </section>
-      <Forecast arr={weather} />
+      <Forecast arr={weather} load={loading} />
     </>
   )
 }
