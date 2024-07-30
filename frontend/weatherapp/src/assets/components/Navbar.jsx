@@ -3,7 +3,7 @@ import React from 'react'
 const Navbar = ({search_val,search_fn,weather_fn,loading_fn}) => {
   const handleSearch = async (e) => { 
       loading_fn(true)
-      const a = await fetch("http://localhost:3000/api", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ searchvalue:search_val }) })
+      const a = await fetch("https://weatherx-8tov.onrender.com/api", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ searchvalue:search_val }) })
       const b = await a.json()
       if (b){
         loading_fn(false)

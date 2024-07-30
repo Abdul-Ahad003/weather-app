@@ -15,6 +15,8 @@ function App() {
 
   const [loading, setloading] = useState(false)
 
+  const home_img = ['./sunny.svg', './cloudy.svg', './showers.svg', './thunderstorms.svg', './partly_cloudy.svg', './rain.svg']
+
   const calculateFeelsLike = (temperature, humidity) => {
     if (temperature < 27 || humidity < 40) {
       return temperature;
@@ -46,7 +48,7 @@ function App() {
 
   const getdata = async () => {
     setloading(true)
-    const a = await fetch("http://localhost:3000/api", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ searchvalue: "kanpur" }) })
+    const a = await fetch("https://weatherx-8tov.onrender.com/api", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ searchvalue: "kanpur" }) })
     const b = await a.json()
     if (b) {
       setloading(false)
@@ -79,7 +81,18 @@ function App() {
           <div className=' card bg-[#131313] py-6 px-8 rounded-2xl'>
             <div className=' text-[20px]'><span>{weather.length !== 0 && weather.location.city}</span></div>
             <div className=' text-[17px]'><span>{weather.length !== 0 && weather.location.country}</span> </div>
-            <div className=' flex justify-between items-center gap-5'><span className=' text-[40px]'>{weather.length !== 0 && weather.current_observation.condition.temperature}&deg;C</span>  <span><img className=' w-[120px] h-[120px]' src='./sunny.svg' /></span> </div>
+            <div className=' flex justify-between items-center gap-4'><span className=' text-[40px]'>{weather.length !== 0 && weather.current_observation.condition.temperature}&deg;C</span>
+              <span className='w-20 h-20'>
+                {weather.length !== 0 && (weather.current_observation.condition.text == "Sunny" && <img src={home_img[0]} alt='sunny' />)}
+                {weather.length !== 0 && (weather.current_observation.condition.text == "Cloudy" && <img  src={home_img[1]} alt='cloudy' />)}
+                {weather.length !== 0 && (weather.current_observation.condition.text == "Mostly Cloudy" && <img src={home_img[1]} alt='mostly cloudy' />)}
+                {weather.length !== 0 && (weather.current_observation.condition.text == "Showers" && <img src={home_img[2]} alt='showers' />)}
+                {weather.length !== 0 && (weather.current_observation.condition.text == "Scattered Showers" && <img src={home_img[2]} alt='scattered showers' />)}
+                {weather.length !== 0 && (weather.current_observation.condition.text == "Thunderstorms" && <img src={home_img[3]} alt='thunderstorms' />)}
+                {weather.length !== 0 && (weather.current_observation.condition.text == "Partly Cloudy" && <img src={home_img[4]} alt='partly cloudy' />)}
+                {weather.length !== 0 && (weather.current_observation.condition.text == "Rain" && <img src={home_img[5]} alt='rain' />)}
+              </span>
+            </div>
             <div><span className=' text-[24px]'>{weather.length !== 0 && weather.current_observation.condition.text}</span></div>
             <div className=' w-full h-[1px] bg-[#747373] my-2'></div>
             <div className=' flex gap-3 my-3.5'> <img className=' w-[24px] h-[24px] font-semibold' src='./calender.svg' /> <span className='font-bold'>{time.toString().split(' ').splice(1, 3).join(" ")}</span> </div>
