@@ -82,7 +82,7 @@ function App() {
             <div className=' text-[20px]'><span>{weather.length !== 0 && weather.location.city}</span></div>
             <div className=' text-[17px]'><span>{weather.length !== 0 && weather.location.country}</span> </div>
             <div className=' flex justify-between items-center gap-4'><span className=' text-[40px]'>{weather.length !== 0 && weather.current_observation.condition.temperature}&deg;C</span>
-              <span className='w-20 h-20'>
+              <span className='w-16 h-16'>
                 {weather.length !== 0 && (weather.current_observation.condition.text == "Sunny" && <img src={home_img[0]} alt='sunny' />)}
                 {weather.length !== 0 && (weather.current_observation.condition.text == "Cloudy" && <img  src={home_img[1]} alt='cloudy' />)}
                 {weather.length !== 0 && (weather.current_observation.condition.text == "Mostly Cloudy" && <img src={home_img[1]} alt='mostly cloudy' />)}
